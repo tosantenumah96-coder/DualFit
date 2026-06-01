@@ -1,0 +1,8 @@
+env: load .env
+env: export PORT FATSECRET_CLIENT_ID FATSECRET_CLIENT_SECRET FATSECRET_SCOPE FATSECRET_USE_SAMPLE_FALLBACK
+Starting project at C:\Users\tosan\Documents\Codex\DualFit
+Starting Metro Bundler
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+CommandError: Input is required, but 'npx expo' is in non-interactive mode.
+Required input:
+> The package @expo/ngrok@^4.1.0 is required to use tunnels, would you like to install it globally?

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MassTrack Wireframe</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app-top-anchor" aria-hidden="true"></div>
+  <div class="mobile-shell">
+    <main class="screen-stack">
+      <section class="view-panel workout-view active" data-view="workout">
+        <section class="hero-card workout-hero">
+          <p class="eyebrow">Workout Log</p>
+          <h2>Find exercises faster and log performance without typing everything manually.</h2>
+          <p class="hero-copy">Add an exercise from your spreadsheet, then log one set at a time inline. Each completed set stays visible and unlocks the next row automatically.</p>
+        </section>
+
+        <section class="summary-strip">
+          <article class="summary-card">
+            <span>Sets Logged</span>
+            <strong id="workout-set-total">0</strong>
+          </article>
+          <article class="summary-card">
+            <span>Total Volume</span>
+            <strong id="workout-volume-total">0 lb</strong>
+          </article>
+          <article class="summary-card">
+            <span>Exercises</span>
+            <strong id="workout-exercise-total">0</strong>
+          </article>
+        </section>
+
+        <section class="panel exercise-picker-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Exercise Picker</p>
+              <h3>Add an exercise to the workout</h3>
+            </div>
+          </div>
+
+          <form id="exercise-picker-form" class="stack-form">
+            <div class="field-block">
+              <label for="exercise-search">Search by exercise name</label>
+              <input id="exercise-search" name="exerciseSearch" type="text" placeholder="Search for bench press, curl, row...">
+            </div>
+
+            <div class="field-grid two-up">
+              <div class="field-block">
+                <label for="muscle-group-select">Muscle group</label>
+                <select id="muscle-group-select" name="muscleGroupFilter">
+                  <option value="">All muscle groups</option>
+                </select>
+              </div>
+              <div class="field-block">
+                <label for="exercise-select">Exercise</label>
+                <select id="exercise-select" name="exerciseName" required>
+                  <option value="">Select an exercise</option>
+                </select>
+              </div>
+            </div>
+
+            <p class="filter-status" id="exercise-filter-status">Showing all exercises from the spreadsheet.</p>
+
+            <div class="exercise-preview" id="exercise-preview">
+              <p class="preview-title">Select an exercise to see equipment, notes, and target muscles.</p>
+            </div>
+
+            <button class="action-button" type="submit">Add Exercise</button>
+          </form>
+        </section>
+
+        <section class="panel workout-session-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Active Session</p>
+              <h3>Inline set-by-set logger</h3>
+            </div>
+          </div>
+          <div id="workout-list" class="exercise-session-list" aria-live="polite"></div>
+        </section>
+      </section>
+
+      <section class="view-panel" data-view="progress">
+        <section class="hero-card alt">
+          <p class="eyebrow">Progress</p>
+          <h2>See training output and nutrition adherence in one summary page.</h2>
+          <p class="hero-copy">This page is scaffolded for the next pass so we can plug in charts, PR tracking, bodyweight changes, and weekly compliance.</p>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Daily Snapshot</p>
+              <h3>Current progress scaffold</h3>
+            </div>
+          </div>
+          <div class="progress-grid">
+            <article class="progress-card">
+              <span>Calories vs Goal</span>
+              <strong id="progress-calories">0 / 3200</strong>
+              <p>Nutrition adherence from diary entries.</p>
+            </article>
+            <article class="progress-card">
+              <span>Protein vs Goal</span>
+              <strong id="progress-protein">0g / 220g</strong>
+              <p>Protein intake rolled up from logged meals.</p>
+            </article>
+            <article class="progress-card">
+              <span>Training Volume</span>
+              <strong id="progress-volume">0 lb</strong>
+              <p>Total tonnage from today&apos;s workout log.</p>
+            </article>
+            <article class="progress-card">
+              <span>Logged Exercises</span>
+              <strong id="progress-exercises">0</strong>
+              <p>Unique movements completed in this session.</p>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section class="view-panel diary-view" data-view="diary">
+        <section class="panel diary-summary-panel">
+          <div class="diary-summary-head">
+            <div class="diary-summary-title">
+              <span class="eyebrow" id="diary-summary-day-label">Today</span>
+              <strong>Daily Totals</strong>
+              <span class="diary-summary-date-copy" id="diary-summary-date-copy">Today</span>
+            </div>
+            <div class="daily-calorie-pill" id="diary-calories-total">0 / 3200 kcal</div>
+          </div>
+
+          <div class="macro-progress-stack" id="macro-progress-stack" aria-live="polite"></div>
+        </section>
+
+        <section class="panel diary-meals-panel">
+          <div class="diary-date-nav">
+            <button class="date-nav-button" type="button" data-action="change-diary-date" data-direction="-1" aria-label="Previous day">
+              <span aria-hidden="true">&#8249;</span>
+            </button>
+            <div class="diary-date-nav-copy">
+              <span class="eyebrow" id="diary-date-relative-label">Today</span>
+              <strong id="diary-date-full-label">Today</strong>
+            </div>
+            <button class="date-nav-button" type="button" data-action="change-diary-date" data-direction="1" aria-label="Next day">
+              <span aria-hidden="true">&#8250;</span>
+            </button>
+          </div>
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Meals</p>
+              <h3>Food diary by meal</h3>
+            </div>
+          </div>
+          <div id="meal-sections" class="meal-sections" aria-live="polite"></div>
+          <div class="fatsecret-attribution">
+            <a href="https://platform.fatsecret.com" target="_blank" rel="noreferrer">
+              <img
+                alt="Nutrition information provided by fatsecret Platform API"
+                src="https://platform.fatsecret.com/api/static/images/powered_by_fatsecret_horizontal_brand.svg"
+              >
+            </a>
+            <p class="fatsecret-copy">Nutrition search results are powered by FatSecret when API credentials are configured.</p>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Primary">
+      <button class="nav-button active" type="button" data-target-view="workout">
+        <span class="nav-icon" aria-hidden="true">⌁</span>
+        <span class="nav-label">Workout</span>
+      </button>
+      <button class="nav-button" type="button" data-target-view="progress">
+        <span class="nav-icon" aria-hidden="true">◔</span>
+        <span class="nav-label">Progress</span>
+      </button>
+      <button class="nav-button" type="button" data-target-view="diary">
+        <span class="nav-icon" aria-hidden="true">◫</span>
+        <span class="nav-label">Diary</span>
+      </button>
+    </nav>
+  </div>
+
+  <script src="exercise-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

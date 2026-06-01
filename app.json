@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "DualFit",
+    "slug": "dualfit",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#07100d"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "DualFit uses your camera to scan food barcodes and add products to your diary.",
+        "NSPhotoLibraryUsageDescription": "DualFit lets you choose profile and progress photos from your photo library."
+      },
+      "bundleIdentifier": "com.tosantenumah.dualfit"
+    },
+    "android": {
+      "package": "com.tosantenumah.dualfit",
+      "adaptiveIcon": {
+        "backgroundColor": "#07100d"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b2468124-6ae9-4ba8-8507-11f910c67e09"
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+env: load .env
+env: export PORT FATSECRET_CLIENT_ID FATSECRET_CLIENT_SECRET FATSECRET_SCOPE FATSECRET_USE_SAMPLE_FALLBACK
+Starting project at C:\Users\tosan\Documents\Codex\DualFit
+Starting Metro Bundler
+Waiting on http://localhost:8084
+Logs for your project will appear below.
