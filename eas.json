@@ -11,13 +11,17 @@
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_FATSECRET_PROXY_URL": "https://dualfit.onrender.com/api/fatsecret"
+        "EXPO_PUBLIC_FATSECRET_PROXY_URL": "https://dualfit.onrender.com/api/fatsecret",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://jhfovwptfhpdbiyriitm.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpoZm92d3B0ZmhwZGJpeXJpaXRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MTYzMjksImV4cCI6MjA5NTM5MjMyOX0.wUAv7ZF1dW8vpWYSuDlWmP7w9WOHpnN4wOyV-PgM1jw"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_FATSECRET_PROXY_URL": "https://dualfit.onrender.com/api/fatsecret"
+        "EXPO_PUBLIC_FATSECRET_PROXY_URL": "https://dualfit.onrender.com/api/fatsecret",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://jhfovwptfhpdbiyriitm.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpoZm92d3B0ZmhwZGJpeXJpaXRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MTYzMjksImV4cCI6MjA5NTM5MjMyOX0.wUAv7ZF1dW8vpWYSuDlWmP7w9WOHpnN4wOyV-PgM1jw"
       }
     }
   },
