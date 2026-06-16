@@ -12,6 +12,7 @@ const HOST = process.env.HOST || "0.0.0.0";
 const FATSECRET_CLIENT_ID = process.env.FATSECRET_CLIENT_ID || "";
 const FATSECRET_CLIENT_SECRET = process.env.FATSECRET_CLIENT_SECRET || "";
 const FATSECRET_SCOPE = process.env.FATSECRET_SCOPE || "basic";
+const FATSECRET_LIVE_ENABLED = String(process.env.FATSECRET_LIVE_ENABLED || "true").toLowerCase() !== "false";
 const USE_SAMPLE_FALLBACK = String(process.env.FATSECRET_USE_SAMPLE_FALLBACK || "true").toLowerCase() !== "false";
 
 const sampleFoods = [
@@ -143,6 +144,46 @@ const sampleFoods = [
     servings: [
       { id: "scoop", serving_id: "scoop", serving_description: "1 scoop", calories: 128, protein: 25.6, carbohydrate: 2.6, fat: 1.9, metric_serving_amount: 32, metric_serving_unit: "g", is_default: 1 },
       { id: "grams", serving_id: "grams", serving_description: "grams", calories: 4, protein: 0.8, carbohydrate: 0.1, fat: 0.1, metric_serving_amount: 1, metric_serving_unit: "g", is_default: 0 },
+    ],
+  },
+  {
+    id: "sample-quest-protein-bar",
+    name: "Chocolate Chip Cookie Dough Protein Bar",
+    brand: "Quest",
+    description: "190 kcal | P 21g | C 22g | F 9g",
+    servings: [
+      { id: "bar", serving_id: "bar", serving_description: "1 bar", calories: 190, protein: 21, carbohydrate: 22, fat: 9, metric_serving_amount: 60, metric_serving_unit: "g", is_default: 1 },
+      { id: "grams", serving_id: "grams", serving_description: "grams", calories: 3.2, protein: 0.4, carbohydrate: 0.4, fat: 0.2, metric_serving_amount: 1, metric_serving_unit: "g", is_default: 0 },
+    ],
+  },
+  {
+    id: "sample-quest-protein-chips",
+    name: "Nacho Cheese Protein Chips",
+    brand: "Quest",
+    description: "150 kcal | P 18g | C 5g | F 6g",
+    servings: [
+      { id: "bag", serving_id: "bag", serving_description: "1 bag", calories: 150, protein: 18, carbohydrate: 5, fat: 6, metric_serving_amount: 32, metric_serving_unit: "g", is_default: 1 },
+      { id: "grams", serving_id: "grams", serving_description: "grams", calories: 4.7, protein: 0.6, carbohydrate: 0.2, fat: 0.2, metric_serving_amount: 1, metric_serving_unit: "g", is_default: 0 },
+    ],
+  },
+  {
+    id: "sample-fairlife-protein-shake",
+    name: "Core Power High Protein Shake Chocolate",
+    brand: "Fairlife",
+    description: "170 kcal | P 26g | C 8g | F 4.5g",
+    servings: [
+      { id: "bottle", serving_id: "bottle", serving_description: "1 bottle", calories: 170, protein: 26, carbohydrate: 8, fat: 4.5, metric_serving_amount: 414, metric_serving_unit: "ml", is_default: 1 },
+      { id: "100ml", serving_id: "100ml", serving_description: "100 ml", calories: 41, protein: 6.3, carbohydrate: 1.9, fat: 1.1, metric_serving_amount: 100, metric_serving_unit: "ml", is_default: 0 },
+    ],
+  },
+  {
+    id: "sample-gatorade-zero",
+    name: "Zero Sugar Thirst Quencher",
+    brand: "Gatorade",
+    description: "5 kcal | P 0g | C 1g | F 0g",
+    servings: [
+      { id: "bottle", serving_id: "bottle", serving_description: "1 bottle", calories: 5, protein: 0, carbohydrate: 1, fat: 0, metric_serving_amount: 591, metric_serving_unit: "ml", is_default: 1 },
+      { id: "100ml", serving_id: "100ml", serving_description: "100 ml", calories: 1, protein: 0, carbohydrate: 0.2, fat: 0, metric_serving_amount: 100, metric_serving_unit: "ml", is_default: 0 },
     ],
   },
   {
@@ -470,10 +511,10 @@ async function handleFoodSearch(requestUrl, response) {
   const query = requestUrl.searchParams.get("q") || "";
   if (!query.trim()) {
     sendJson(response, 200, {
-      provider: FATSECRET_CLIENT_ID && FATSECRET_CLIENT_SECRET ? "fatsecret" : "sample",
-      message: FATSECRET_CLIENT_ID && FATSECRET_CLIENT_SECRET
+      provider: FATSECRET_LIVE_ENABLED && FATSECRET_CLIENT_ID && FATSECRET_CLIENT_SECRET ? "fatsecret" : "sample",
+      message: FATSECRET_LIVE_ENABLED && FATSECRET_CLIENT_ID && FATSECRET_CLIENT_SECRET
         ? "Start typing to search FatSecret."
-        : "FatSecret credentials are not configured yet. Showing sample foods.",
+        : "Demo food search is enabled. Showing DualFit sample foods.",
       results: [],
     });
     return;
@@ -483,6 +524,20 @@ async function handleFoodSearch(requestUrl, response) {
   const cachedEntry = searchCache.get(normalizedQuery);
   if (cachedEntry && Date.now() - cachedEntry.createdAt < SEARCH_CACHE_TTL_MS) {
     sendJson(response, 200, cachedEntry.payload);
+    return;
+  }
+
+  if (!FATSECRET_LIVE_ENABLED) {
+    const responsePayload = {
+      provider: "sample",
+      message: "Demo food search is enabled while FS Food Data is paused.",
+      results: normalizeSampleSearchResults(query),
+    };
+    searchCache.set(normalizedQuery, {
+      createdAt: Date.now(),
+      payload: responsePayload,
+    });
+    sendJson(response, 200, responsePayload);
     return;
   }
 
@@ -680,6 +735,7 @@ const server = http.createServer(async (request, response) => {
   if (requestUrl.pathname === "/api/fatsecret/health") {
     sendJson(response, 200, {
       configured: Boolean(FATSECRET_CLIENT_ID && FATSECRET_CLIENT_SECRET),
+      liveEnabled: FATSECRET_LIVE_ENABLED,
       fallbackEnabled: USE_SAMPLE_FALLBACK,
     });
     return;
