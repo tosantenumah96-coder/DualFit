@@ -10,6 +10,7 @@
     },
     "preview": {
       "distribution": "internal",
+      "autoIncrement": true,
       "env": {
         "EXPO_PUBLIC_FATSECRET_PROXY_URL": "https://dualfit.onrender.com/api/fatsecret",
         "EXPO_PUBLIC_SUPABASE_URL": "https://jhfovwptfhpdbiyriitm.supabase.co",
